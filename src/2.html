@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luxury Travel Mockup Demo</title>
+  <style>
+    :root{
+      --blue:#1e88ff;
+      --sky:#6fd3ff;
+      --teal:#34d6c8;
+      --orange:#ff9f43;
+      --coral:#ff6f61;
+      --yellow:#ffc83d;
+      --text:#16324f;
+      --muted:#5d7288;
+      --bg:#f7fbff;
+      --card:#ffffff;
+      --shadow:0 10px 30px rgba(19,65,117,.12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#f9fdff 0%,#eef8ff 100%);
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1200px, calc(100% - 32px)); margin:0 auto}
+    .nav{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(12px);
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(0,0,0,.05);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 0;
+      gap:18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; font-weight:800; font-size:1.15rem;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--orange),var(--yellow));
+      display:grid;place-items:center;color:white;font-size:1.3rem;
+      box-shadow:var(--shadow);
+    }
+    .menu{display:flex; gap:24px; color:#29465f; font-weight:600; flex-wrap:wrap}
+    .menu a:hover{color:var(--blue)}
+    .actions{display:flex; align-items:center; gap:12px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px; border:none; cursor:pointer; padding:13px 18px;
+      border-radius:999px; font-weight:700; transition:.2s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      color:white;
+      background:linear-gradient(135deg,var(--orange),var(--yellow));
+      box-shadow:0 10px 24px rgba(255,159,67,.28);
+    }
+    .btn-secondary{
+      background:white; color:var(--text); border:1px solid rgba(0,0,0,.08);
+    }
+
+    .hero{
+      padding:34px 0 20px;
+    }
+    .hero-card{
+      position:relative; overflow:hidden; min-height:640px;
+      border-radius:34px; box-shadow:var(--shadow);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.78) 28%, rgba(255,255,255,.08) 58%),
+        linear-gradient(135deg, #7fd8ff 0%, #2aa3ff 26%, #2ed3c8 58%, #ffd26f 100%);
+    }
+    .hero-bg{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 84% 18%, rgba(255,255,255,.85) 0 10%, transparent 10.5%),
+        radial-gradient(circle at 87% 22%, rgba(255,255,255,.75) 0 16%, transparent 16.5%),
+        radial-gradient(circle at 93% 24%, rgba(255,97,178,.9) 0 3%, transparent 3.4%),
+        radial-gradient(circle at 96% 30%, rgba(255,97,178,.75) 0 4%, transparent 4.3%),
+        radial-gradient(circle at 63% 78%, rgba(255,255,255,.18) 0 18%, transparent 18.4%),
+        radial-gradient(circle at 77% 74%, rgba(255,255,255,.14) 0 28%, transparent 28.5%),
+        linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,0));
+    }
+    .mountain{
+      position:absolute; right:26%; bottom:28%;
+      width:300px; height:220px;
+      background:linear-gradient(180deg,#7391c7,#345985);
+      clip-path:polygon(50% 0, 72% 30%, 84% 52%, 100% 100%, 0 100%, 18% 62%, 34% 35%);
+      filter:drop-shadow(0 18px 18px rgba(0,0,0,.18));
+      opacity:.88;
+    }
+    .sea{
+      position:absolute; left:34%; right:0; bottom:0; height:42%;
+      background:linear-gradient(180deg, rgba(56,169,255,.25), rgba(19,125,216,.45) 45%, rgba(0,109,183,.55));
+    }
+    .villa{
+      position:absolute; right:3%; bottom:8%;
+      width:360px; height:250px;
+      border-radius:18px 18px 0 0;
+      background:linear-gradient(180deg,#8b6446,#4f3528);
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+    }
+    .villa:before{
+      content:"";
+      position:absolute; inset:18px 18px 0 18px;
+      background:
+        linear-gradient(90deg, rgba(255,211,145,.95) 0 24%, transparent 24% 28%, rgba(255,211,145,.95) 28% 52%, transparent 52% 56%, rgba(255,211,145,.95) 56% 80%, transparent 80% 84%, rgba(255,211,145,.95) 84% 100%);
+      height:72%;
+      border-radius:10px 10px 0 0;
+      opacity:.9;
+    }
+    .pool{
+      position:absolute; right:12%; bottom:4%;
+      width:300px; height:58px; border-radius:18px;
+      background:linear-gradient(135deg,#2ed3c8,#258dff);
+      box-shadow:inset 0 0 0 4px rgba(255,255,255,.18);
+      transform:skewX(-18deg);
+    }
+
+    .hero-content{
+      position:relative; z-index:2;
+      padding:56px 52px 190px;
+      max-width:560px;
+    }
+    .eyebrow{
+      display:inline-block;
+      color:#1b75ff; font-weight:800; font-size:.85rem; letter-spacing:.08em;
+      text-transform:uppercase; margin-bottom:16px;
+    }
+    h1{
+      margin:0; line-height:.96; font-size:clamp(2.7rem, 6vw, 5.4rem);
+      letter-spacing:-.04em;
+    }
+    h1 .script{
+      display:block;
+      font-family: "Brush Script MT", "Segoe Script", cursive;
+      color:var(--orange);
+      font-weight:700;
+      margin-top:10px;
+      line-height:1.02;
+    }
+    .sub{
+      margin:22px 0 28px; font-size:1.1rem; color:#31516d; line-height:1.65;
+      max-width:510px;
+    }
+    .hero-buttons{display:flex; gap:14px; flex-wrap:wrap}
+
+    .search-panel{
+      position:absolute; left:34px; right:34px; bottom:28px; z-index:3;
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      border:1px solid rgba(255,255,255,.6);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      display:grid; grid-template-columns:repeat(5,1fr) auto;
+      gap:10px; padding:14px;
+    }
+    .field{
+      background:white; border:1px solid rgba(19,65,117,.08);
+      border-radius:18px; padding:14px 16px;
+    }
+    .field label{
+      display:block; font-size:.75rem; color:#6a8095; font-weight:700; margin-bottom:6px;
+      text-transform:uppercase; letter-spacing:.04em;
+    }
+    .field span{font-weight:700}
+    .search-btn{
+      min-width:170px;
+      background:linear-gradient(135deg,#2288ff,#2ed3c8);
+      color:white; border:none; border-radius:18px; font-weight:800; font-size:1rem;
+      padding:0 22px; box-shadow:0 10px 25px rgba(34,136,255,.22);
+    }
+
+    .features{
+      display:grid; grid-template-columns:repeat(5,1fr);
+      gap:16px; margin:28px 0 12px;
+    }
+    .feature{
+      background:var(--card); border-radius:22px; box-shadow:var(--shadow);
+      padding:20px; display:flex; gap:14px; align-items:flex-start;
+    }
+    .icon{
+      width:48px; height:48px; border-radius:16px; display:grid; place-items:center;
+      font-size:1.2rem; color:#15507a; flex:0 0 auto;
+    }
+    .icon.blue{background:#e9f4ff}
+    .icon.green{background:#e9fff8}
+    .icon.orange{background:#fff3e5}
+    .icon.pink{background:#fff0f4}
+    .icon.yellow{background:#fff9dd}
+    .feature strong{display:block; margin-bottom:6px}
+    .feature p{margin:0; color:var(--muted); font-size:.95rem; line-height:1.5}
+
+    .section{padding:28px 0}
+    .section-head{
+      display:flex; justify-content:space-between; align-items:end; gap:16px; margin-bottom:18px;
+    }
+    .section-head h2{
+      margin:0; font-size:2rem; letter-spacing:-.03em;
+    }
+    .section-head p{margin:6px 0 0; color:var(--muted)}
+    .link{
+      color:var(--blue); font-weight:800;
+    }
+
+    .grid-4{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
+    }
+    .card{
+      background:var(--card); border-radius:24px; overflow:hidden; box-shadow:var(--shadow);
+    }
+    .img{
+      height:200px; position:relative; overflow:hidden;
+    }
+    .img.santorini{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.08)),
+        linear-gradient(135deg,#3ab7ff,#7fe0ff 45%,#fefefe 46%,#ffffff 56%,#ff9b54 120%);
+    }
+    .img.maldives{
+      background:linear-gradient(135deg,#00b8ff,#75ecff 42%,#f7f0c3 85%);
+    }
+    .img.dubai{
+      background:linear-gradient(135deg,#ffc88a,#ff8e7e 40%,#6b91ff 100%);
+    }
+    .img.safari{
+      background:linear-gradient(135deg,#f6c05b,#e68b3d 45%,#87c86d 100%);
+    }
+    .img:before,.img:after{content:""; position:absolute}
+    .img.santorini:before{
+      left:56%; top:26%; width:120px; height:120px; border-radius:60px 60px 0 0;
+      background:#fff;
+      box-shadow:
+        -140px 34px 0 0 #fff,
+        -75px 18px 0 0 #fff,
+        55px 40px 0 0 #fff;
+    }
+    .img.santorini:after{
+      left:0; right:0; bottom:0; height:58px;
+      background:linear-gradient(180deg, rgba(28,112,212,.0), rgba(25,121,210,.4));
+    }
+    .img.maldives:before{
+      left:18px; right:18px; bottom:24px; height:22px; border-radius:999px;
+      background:#fff3;
+      box-shadow:0 -44px 0 0 #ffffff33;
+    }
+    .img.maldives:after{
+      left:58%; bottom:52px; width:8px; height:74px; background:#6f4e37; transform:rotate(10deg);
+      box-shadow:24px -8px 0 0 #6f4e37;
+    }
+    .img.dubai:before{
+      right:34px; bottom:0; width:22px; height:156px; background:#284d9a;
+      box-shadow:-60px 26px 0 0 #3c63b8, -105px 44px 0 0 #5478c4, -145px 70px 0 0 #6a8bd3;
+    }
+    .img.safari:before{
+      left:24px; bottom:28px; width:120px; height:58px; border-radius:14px;
+      background:#5c4836;
+      box-shadow:140px 16px 0 0 transparent;
+    }
+    .img.safari:after{
+      right:36px; bottom:34px; width:70px; height:100px; border-radius:36px 36px 14px 14px;
+      background:#d49643;
+    }
+    .card-body{padding:16px 16px 18px}
+    .tag{
+      display:inline-flex; padding:7px 10px; border-radius:999px; font-size:.74rem;
+      font-weight:800; color:white; position:absolute; top:12px; left:12px;
+      background:linear-gradient(135deg,var(--teal),var(--blue));
+      box-shadow:0 6px 16px rgba(30,136,255,.25);
+    }
+    .fav{
+      position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%;
+      background:rgba(255,255,255,.92); display:grid; place-items:center; font-size:1.05rem;
+      box-shadow:0 6px 16px rgba(0,0,0,.12);
+    }
+    .card h3{margin:0 0 8px; font-size:1.12rem}
+    .meta{
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      color:var(--muted); font-weight:600; font-size:.96rem;
+    }
+    .price{color:#103f73; font-weight:900}
+    .rating{color:#ff9f43; font-weight:800}
+
+    .exp-grid{
+      display:grid; grid-template-columns:repeat(6,1fr); gap:16px;
+    }
+    .exp{
+      background:white; border-radius:22px; box-shadow:var(--shadow);
+      padding:20px; text-align:center;
+    }
+    .exp .icon{margin:0 auto 12px}
+    .exp h4{margin:0 0 8px}
+    .exp p{margin:0; color:var(--muted); font-size:.93rem; line-height:1.5}
+
+    .cta{
+      margin:28px 0 42px;
+      border-radius:32px; overflow:hidden; box-shadow:var(--shadow);
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.88), rgba(255,255,255,.82)),
+        linear-gradient(135deg,#7fd8ff,#35aaff 40%,#2ed3c8 70%,#ffbe57);
+      min-height:240px; position:relative;
+    }
+    .cta-inner{
+      position:relative; z-index:2;
+      display:grid; grid-template-columns:1.3fr .9fr; gap:20px;
+      align-items:center; padding:36px;
+    }
+    .cta h2{margin:0 0 10px; font-size:2.2rem}
+    .cta p{margin:0 0 20px; color:#36556f; font-size:1.05rem; line-height:1.6}
+    .badge-row{
+      display:flex; gap:14px; flex-wrap:wrap; margin-top:18px;
+    }
+    .badge{
+      background:rgba(255,255,255,.8); border:1px solid rgba(0,0,0,.05);
+      border-radius:999px; padding:10px 14px; font-weight:700; color:#31516d;
+    }
+    .cta-art{
+      position:relative; min-height:170px;
+    }
+    .orb{
+      position:absolute; border-radius:50%; filter:blur(.2px);
+      box-shadow:0 16px 36px rgba(0,0,0,.12);
+    }
+    .orb.one{width:180px;height:180px; right:90px; top:0; background:linear-gradient(135deg,#ff9f43,#ffd94c)}
+    .orb.two{width:140px;height:140px; right:10px; top:72px; background:linear-gradient(135deg,#2ed3c8,#2288ff)}
+    .orb.three{width:120px;height:120px; right:190px; top:88px; background:linear-gradient(135deg,#ff6f61,#ffa46c)}
+
+    footer{
+      padding:28px 0 50px; color:#5f768a; text-align:center;
+    }
+
+    @media (max-width: 1100px){
+      .search-panel{grid-template-columns:repeat(2,1fr)}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .grid-4{grid-template-columns:repeat(2,1fr)}
+      .exp-grid{grid-template-columns:repeat(3,1fr)}
+      .cta-inner{grid-template-columns:1fr}
+    }
+    @media (max-width: 760px){
+      .menu{display:none}
+      .hero-content{padding:36px 24px 250px}
+      .hero-card{min-height:760px}
+      .search-panel{
+        left:16px; right:16px; bottom:16px;
+        grid-template-columns:1fr;
+      }
+      .features{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:1fr}
+      .exp-grid{grid-template-columns:1fr 1fr}
+      .villa,.pool,.mountain{opacity:.55}
+      .section-head{align-items:flex-start; flex-direction:column}
+      .actions .btn-secondary{display:none}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo">✈</div>
+        <div>BrightEscape</div>
+      </div>
+      <div class="menu">
+        <a href="#">Home</a>
+        <a href="#">Destinations</a>
+        <a href="#">Experiences</a>
+        <a href="#">Holidays</a>
+        <a href="#">Cruises</a>
+        <a href="#">Deals</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="actions">
+        <a class="btn btn-secondary" href="#">Wishlist</a>
+        <a class="btn btn-primary" href="#">Plan My Trip</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-bg"></div>
+        <div class="mountain"></div>
+        <div class="sea"></div>
+        <div class="villa"></div>
+        <div class="pool"></div>
+
+        <div class="hero-content">
+          <div class="eyebrow">Luxury travel, made colorful</div>
+          <h1>
+            Extraordinary Journeys,
+            <span class="script">Unforgettable Memories</span>
+          </h1>
+          <p class="sub">
+            Handcrafted vacations to the world’s most beautiful places, designed to feel premium, vibrant, and full of energy.
+          </p>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="#">Explore Destinations</a>
+            <a class="btn btn-secondary" href="#">Talk to a Travel Expert</a>
+          </div>
+        </div>
+
+        <div class="search-panel">
+          <div class="field">
+            <label>Where to?</label>
+            <span>Any Destination</span>
+          </div>
+          <div class="field">
+            <label>Check In</label>
+            <span>Add Date</span>
+          </div>
+          <div class="field">
+            <label>Check Out</label>
+            <span>Add Date</span>
+          </div>
+          <div class="field">
+            <label>Travelers</label>
+            <span>2 Adults</span>
+          </div>
+          <div class="field">
+            <label>Experience</label>
+            <span>Any Experience</span>
+          </div>
+          <button class="search-btn">Search Trips</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <div class="icon blue">🎧</div>
+        <div><strong>24/7 Concierge</strong><p>We’re here anytime, anywhere.</p></div>
+      </div>
+      <div class="feature">
+        <div class="icon green">⭐</div>
+        <div><strong>VIP Access</strong><p>Exclusive perks and premium privileges.</p></div>
+      </div>
+      <div class="feature">
+        <div class="icon orange">🧳</div>
+        <div><strong>Tailor-Made Trips</strong><p>Custom itineraries just for you.</p></div>
+      </div>
+      <div class="feature">
+        <div class="icon pink">💖</div>
+        <div><strong>Seamless Travel</strong><p>Every detail perfectly handled.</p></div>
+      </div>
+      <div class="feature">
+        <div class="icon yellow">🔒</div>
+        <div><strong>Safe & Secure</strong><p>Your information stays protected.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Popular Destinations</h2>
+          <p>Bright, colorful escapes with a premium feel.</p>
+        </div>
+        <a class="link" href="#">View all destinations →</a>
+      </div>
+
+      <div class="grid-4">
+        <article class="card">
+          <div class="img maldives">
+            <span class="tag">Maldives</span>
+            <span class="fav">♡</span>
+          </div>
+          <div class="card-body">
+            <h3>Maldives</h3>
+            <div class="meta"><span class="price">From $2,299</span><span class="rating">★ 4.9</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img santorini">
+            <span class="tag">Santorini</span>
+            <span class="fav">♡</span>
+          </div>
+          <div class="card-body">
+            <h3>Santorini, Greece</h3>
+            <div class="meta"><span class="price">From $1,999</span><span class="rating">★ 4.8</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img dubai">
+            <span class="tag">Dubai</span>
+            <span class="fav">♡</span>
+          </div>
+          <div class="card-body">
+            <h3>Dubai, UAE</h3>
+            <div class="meta"><span class="price">From $1,699</span><span class="rating">★ 4.8</span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img safari">
+            <span class="tag">Safari</span>
+            <span class="fav">♡</span>
+          </div>
+          <div class="card-body">
+            <h3>Serengeti, Tanzania</h3>
+            <div class="meta"><span class="price">From $2,399</span><span class="rating">★ 4.7</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Handpicked Experiences</h2>
+          <p>Designed to feel premium, fun, and aspirational.</p>
+        </div>
+        <a class="link" href="#">View all experiences →</a>
+      </div>
+
+      <div class="exp-grid">
+        <div class="exp">
+          <div class="icon blue">🛥️</div>
+          <h4>Private Yachts</h4>
+          <p>Sail in luxury on crystal-clear waters.</p>
+        </div>
+        <div class="exp">
+          <div class="icon orange">🎈</div>
+          <h4>Hot Air Balloons</h4>
+          <p>See breathtaking landscapes from above.</p>
+        </div>
+        <div class="exp">
+          <div class="icon green">🏝️</div>
+          <h4>Overwater Villas</h4>
+          <p>Stay in paradise right above the ocean.</p>
+        </div>
+        <div class="exp">
+          <div class="icon pink">🚁</div>
+          <h4>Helicopter Tours</h4>
+          <p>Make every arrival unforgettable.</p>
+        </div>
+        <div class="exp">
+          <div class="icon yellow">🍽️</div>
+          <h4>Fine Dining</h4>
+          <p>Savor curated meals in stunning settings.</p>
+        </div>
+        <div class="exp">
+          <div class="icon blue">🎭</div>
+          <h4>Cultural Immersion</h4>
+          <p>Enjoy local experiences with style.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="cta-inner">
+        <div>
+          <h2>Ready to plan your dream vacation?</h2>
+          <p>
+            Let our travel experts craft a colorful, high-converting demo experience you can show clients, partners, or investors.
+          </p>
+          <a class="btn btn-primary" href="#">Plan My Trip</a>
+          <div class="badge-row">
+            <span class="badge">Trusted by travelers</span>
+            <span class="badge">Premium booking flow</span>
+            <span class="badge">Bright luxury aesthetic</span>
+          </div>
+        </div>
+        <div class="cta-art">
+          <div class="orb one"></div>
+          <div class="orb two"></div>
+          <div class="orb three"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Concept travel landing page demo • HTML/CSS only
+  </footer>
+</body>
+</html>
