@@ -1,9 +1,9 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 
 export default function ContactSection() {
-  const formRef = useRef(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [form, setForm] = useState({
     name: "",
     business: "",
@@ -12,29 +12,32 @@ export default function ContactSection() {
   });
   const [isSending, setIsSending] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" });
+  const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!serviceId || !templateId || !publicKey || !formRef.current) {
+      setStatus({
+        type: "error",
+        message: "Email service is not configured properly.",
+      });
+      return;
+    }
 
     setIsSending(true);
     setStatus({ type: "", message: "" });
 
     try {
-      console.log("EmailJS env check", {
-        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
-      });
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
+      await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
 
       setStatus({
         type: "success",
@@ -49,14 +52,23 @@ export default function ContactSection() {
       });
 
       window.location.href = "/thank-you";
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("EmailJS error:", error);
+
+      let errorMessage =
+        "Something went wrong while sending your enquiry. Please try again.";
+
+      if (typeof error === "object" && error !== null) {
+        if ("text" in error && typeof error.text === "string") {
+          errorMessage = error.text;
+        } else if ("message" in error && typeof error.message === "string") {
+          errorMessage = error.message;
+        }
+      }
+
       setStatus({
         type: "error",
-        message:
-          error?.text ||
-          error?.message ||
-          "Something went wrong while sending your enquiry. Please try again.",
+        message: errorMessage,
       });
     } finally {
       setIsSending(false);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Briefcase, Stethoscope, Hotel, Store, Globe, Smartphone, Rocket, ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ const serviceSections = [
   },
 ];
 
-const serviceIcons: Record<string, JSX.Element> = {
+const serviceIcons: Record<string, ReactNode> = {
   Websites: <Globe size={16} />,
   Apps: <Smartphone size={16} />,
   MVPs: <Rocket size={16} />,
@@ -44,7 +44,7 @@ const industrySections = [
   },
 ];
 
-const industryIcons: Record<string, JSX.Element> = {
+const industryIcons: Record<string, ReactNode> = {
   Healthcare: <Stethoscope size={16} />,
   Fintech: <Briefcase size={16} />,
   Hospitality: <Hotel size={16} />,
