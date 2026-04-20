@@ -76,9 +76,7 @@ export default function Navbar() {
               <span className="text-[1.35rem] font-semibold tracking-[-0.02em] text-white">
                 <span className="text-red-500">O</span>mino
               </span>
-              <span className="mt-[2px] text-[11px] font-medium tracking-[-0.01em] text-zinc-400">
-                Software engineering
-              </span>
+
             </Link>
           </div>
 
