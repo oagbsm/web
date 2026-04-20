@@ -43,7 +43,7 @@ export const websiteSlides = [
       { title: "Customer Support Ticket System", image: "/client2.jpg" },
       { title: "Secure Document Management Portal", image: "/client3.jpg" },
       { title: "Gym Management Dashboard", image: "/client4.jpg" },
-      { title: "Internal Operations Dashboard", image: "/3.jpg" },
+      { title: "Internal Operations Dashboard", image: "/3..jpg" },
     ],
   },
 ];
